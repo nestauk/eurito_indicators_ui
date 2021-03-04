@@ -1,13 +1,15 @@
 <script>
 	import {onMount} from 'svelte';
-	import {fontScaling} from 'app/stores/fontScaling';
+	import ScreenGauge, {screen}
+		from '@svizzle/ui/src/gauges/screen/ScreenGauge.svelte';
 
 	import Nav from 'app/components/Nav.svelte';
-	import ScreenGauge, {screenGauge} from 'app/components/ScreenGauge.svelte';
+	import {fontScaling} from 'app/stores/fontScaling';
 
 	const dev = process.env.NODE_ENV === 'development';
 
 	export let segment;
+
 	let rootStyle;
 	let defaultFontSize;
 
@@ -18,15 +20,18 @@
 	})
 
 	// set document root element font size so that `rem` units work
-	$: rootStyle 
+	$: rootStyle
 		&& (rootStyle.fontSize = `calc(${defaultFontSize} * ${$fontScaling})`);
 </script>
 
-<ScreenGauge bands={[60, 82, 100, 120]} devMode={dev} />
+<ScreenGauge
+	bands={[45, 90, 135, 180]}
+	devMode={dev}
+/>
 
-{#if $screenGauge?.size.medium}
+{#if $screen?.sizeFlags.medium}
 	<header>
-		<Nav {segment} screen={$screenGauge}/>
+		<Nav {segment} screen={$screen}/>
 	</header>
 {/if}
 
@@ -34,9 +39,9 @@
 	<slot></slot>
 </main>
 
-{#if !$screenGauge?.size.medium}
+{#if !$screen?.sizeFlags.medium}
 	<header class='small'>
-		<Nav {segment} screen={$screenGauge}/>
+		<Nav {segment} screen={$screen}/>
 	</header>
 {/if}
 

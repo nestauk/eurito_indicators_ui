@@ -1,5 +1,7 @@
 <script>
-	import {screenGauge} from 'app/components/ScreenGauge.svelte';
+	import {screen as screenGauge}
+		from '@svizzle/ui/src/gauges/screen/ScreenGauge.svelte';
+
 	import {fontScaling} from 'app/stores/fontScaling';
 
 	const sizes = {
@@ -13,13 +15,12 @@
 		vmax: '2vmax',
 	}
 	const units = Object.keys(sizes);
-	
-	let sizeMultiplier = 1.0;
-
 
 	export let screen;
-	$: screen = $screenGauge;
 
+	let sizeMultiplier = 1.0;
+
+	$: screen = $screenGauge;
 	$: fontScaling.set(sizeMultiplier);
 </script>
 
@@ -27,11 +28,11 @@
 	<div class="quarter-screen-ref"> </div>
 	<section style={`--size-mult: ${sizeMultiplier}`}>
 		<p class='info'>
-			DPPR: {screen?.display.pixelRatio.toPrecision(4)} 
-			W: {screen?.display.width} 
-			H: {screen?.display.height} 
-			CHARS: {screen?.text.width.toFixed(0)}
-			x {screen?.text.height.toFixed(0)}
+			DPPR: {screen?.display.pixelRatio.toPrecision(4)}
+			W: {screen?.display.width}
+			H: {screen?.display.height}
+			CHARS: {screen?.text.maxChars}
+			x {screen?.text.maxLines}
 			size: {screen?.classes}
 		</p>
 		{#each units as unit}
@@ -43,10 +44,10 @@
 					Fmxg.
 				</p>
 				<p class='unused'>
-					mmmmm mmmmm mmmmm mmmmm mmmmm mmmmm mmmmm 
+					mmmmm mmmmm mmmmm mmmmm mmmmm mmmmm mmmmm
 				</p>
 				<p class='unused'>
-					xxxxx xxxxx xxxxx xxxxx xxxxx xxxxx xxxxx 
+					xxxxx xxxxx xxxxx xxxxx xxxxx xxxxx xxxxx
 				</p>
 			</div>
 			<hr />
